@@ -42,7 +42,20 @@ function applyRecordChanges(data, domain) {
         success : function(data, status, jqXHR) {
             // update Apply button value
             $.getJSON($SCRIPT_ROOT + '/domain/' + domain + '/info', function(data) {
+                var oldSerial = $('.button_apply_changes').val();
                 $(".button_apply_changes").val(data['serial']);
+
+                var table = $('#tbl_records').DataTable();
+                table.rows().eq(0).each(function (index) {
+                    var node = table.row(index).node();
+                    if (node.classList.contains('type-SOA')) {
+                        var cell = table.cell(index, 4);
+                        var newSoaData = cell.data().replace(oldSerial, data['serial']);
+
+                        cell.data(newSoaData);
+                    }
+                });
+                table.draw();
             });
 
             console.log("Applied changes successfully.")

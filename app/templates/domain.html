@@ -49,7 +49,7 @@
                         </thead>
                         <tbody>
                                 {% for record in records %}
-                                <tr class="odd row_record" id="{{ domain.name }}">
+                                <tr class="odd row_record type-{{ record.type }}" id="{{ domain.name }}">
                                     <td>
                                         {{ (record.name,domain.name)|display_record_name }}
                                     </td>
